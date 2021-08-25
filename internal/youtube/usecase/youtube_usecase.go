@@ -1,11 +1,12 @@
 package usecase
 
 import (
-	"context"
 	"fmt"
+	"net/url"
+	"strings"
 
 	"github.com/Planxnx/discordBot-Golang/internal/music/model"
-	"github.com/rylio/ytdl"
+	"github.com/kkdai/youtube/v2"
 )
 
 //Usecase interface
@@ -14,12 +15,12 @@ type Usecase interface {
 }
 
 type youtubeUsecase struct {
-	ytdlClient *ytdl.Client
+	ytdlClient *youtube.Client
 }
 
 //NewYoutubeUsecase new message delivery
 func NewYoutubeUsecase() Usecase {
-	client := ytdl.DefaultClient
+	client := &youtube.Client{}
 
 	return &youtubeUsecase{
 		ytdlClient: client,
@@ -28,25 +29,28 @@ func NewYoutubeUsecase() Usecase {
 
 //GetYoutubeDownloadURL return youtube download url
 func (yu youtubeUsecase) GetYoutubeDownloadURL(link string) (*model.Song, error) {
-	ctx := context.Background()
 	client := yu.ytdlClient
-	videoInfo, err := client.GetVideoInfo(ctx, link)
+	videoInfo, err := client.GetVideo(link)
 	if err != nil {
 		return nil, err
 	}
 	for _, format := range videoInfo.Formats {
-		if format.AudioEncoding == "opus" || format.AudioEncoding == "aac" || format.AudioEncoding == "vorbis" {
-			data, err := client.GetDownloadURL(ctx, videoInfo, format)
+		if strings.Contains(format.MimeType, "opus") {
+			data, err := client.GetStreamURL(videoInfo, &format)
+			if err != nil {
+				return nil, err
+			}
+			thumbUrl, err := url.Parse(videoInfo.Thumbnails[0].URL)
 			if err != nil {
 				return nil, err
 			}
 			return &model.Song{
 				Title:        videoInfo.Title,
 				Link:         link,
-				DownloadLink: data.String(),
+				DownloadLink: data,
 				Duration:     videoInfo.Duration,
-				Uploader:     videoInfo.Uploader,
-				ThumbnailURL: videoInfo.GetThumbnailURL(ytdl.ThumbnailQualityHigh),
+				Uploader:     videoInfo.Author,
+				ThumbnailURL: thumbUrl,
 			}, nil
 		}
 	}
