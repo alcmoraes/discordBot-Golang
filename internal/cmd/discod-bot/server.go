@@ -18,10 +18,6 @@ import (
 	"go.uber.org/fx"
 )
 
-var (
-	botToken string
-)
-
 func registerHooks(lifecycle fx.Lifecycle, discord discord.Discord) {
 	lifecycle.Append(
 		fx.Hook{
