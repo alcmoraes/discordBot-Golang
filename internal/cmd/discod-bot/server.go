@@ -6,6 +6,7 @@ import (
 
 	commandsProvider "discordbot-golang/internal/commands/provider"
 	"discordbot-golang/internal/discord"
+	jackettProvider "discordbot-golang/internal/jackett/provider"
 	"discordbot-golang/internal/logger"
 	messageProvider "discordbot-golang/internal/messages/provider"
 	musicProvider "discordbot-golang/internal/music/provider"
@@ -57,6 +58,7 @@ func RunServer() error {
 		messageProvider.RepositoryModule,
 		messageProvider.UsecaseModule,
 		voiceProvider.UsecaseModule,
+		jackettProvider.UsecaseModule,
 		youtubeProvider.UsecaseModule,
 		musicProvider.UsecaseModule,
 		messageProvider.DeliveryModule,

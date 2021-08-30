@@ -9,6 +9,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 
 	"discordbot-golang/internal/discord"
+	jackettUsecase "discordbot-golang/internal/jackett/usecase"
 	musicUsecase "discordbot-golang/internal/music/usecase"
 	voiceUsecase "discordbot-golang/internal/voice/usecase"
 )
@@ -19,17 +20,19 @@ type Delivery interface {
 }
 
 type commandsDelivery struct {
-	musicUsecase musicUsecase.Usecase
-	voiceUsecase voiceUsecase.Usecase
-	discord      discord.Discord
+	musicUsecase   musicUsecase.Usecase
+	voiceUsecase   voiceUsecase.Usecase
+	jackettUsecase jackettUsecase.Usecase
+	discord        discord.Discord
 }
 
 //NewCommandsDelivery new message delivery
-func NewCommandsDelivery(discord discord.Discord, mu musicUsecase.Usecase, vu voiceUsecase.Usecase) Delivery {
+func NewCommandsDelivery(discord discord.Discord, mu musicUsecase.Usecase, vu voiceUsecase.Usecase, ju jackettUsecase.Usecase) Delivery {
 	return &commandsDelivery{
-		musicUsecase: mu,
-		voiceUsecase: vu,
-		discord:      discord,
+		musicUsecase:   mu,
+		voiceUsecase:   vu,
+		jackettUsecase: ju,
+		discord:        discord,
 	}
 }
 
@@ -59,6 +62,11 @@ func (cd commandsDelivery) GetCommandsHandler(s *discordgo.Session, m *discordgo
 		cd.discord.SendMessageToChannel(m.ChannelID, help)
 	} else if strings.HasPrefix(m.Content, botPrefix+"join") {
 		cd.voiceUsecase.ConnectToVoiceChannel(s, m, guild, true)
+	} else if strings.HasPrefix(m.Content, botPrefix+"torrent") {
+		var commandArgs []string = strings.Split(m.Content, " ")
+		if len(commandArgs) > 1 {
+			cd.jackettUsecase.LookupTorrent(strings.Join(commandArgs[1:], " "), s, m, guild)
+		}
 	} else if strings.HasPrefix(m.Content, botPrefix+"stop") {
 		go cd.voiceUsecase.StopVoice()
 		cd.discord.SendMessageToChannel(m.ChannelID, "Ok -_o_-")
