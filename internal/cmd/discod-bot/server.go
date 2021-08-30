@@ -8,7 +8,6 @@ import (
 	"discordbot-golang/internal/discord"
 	jackettProvider "discordbot-golang/internal/jackett/provider"
 	"discordbot-golang/internal/logger"
-	messageProvider "discordbot-golang/internal/messages/provider"
 	musicProvider "discordbot-golang/internal/music/provider"
 	voiceProvider "discordbot-golang/internal/voice/provider"
 
@@ -47,21 +46,19 @@ func registerHooks(lifecycle fx.Lifecycle, discord discord.Discord) {
 // RunServer runs discord bot server
 func RunServer() error {
 	err := godotenv.Load()
+
 	if err != nil {
-		log.Println("dotEnv: can't loading .env file")
+		log.Fatal("dotEnv: can't loading .env file")
 	}
 
 	app := fx.New(
 		fx.Provide(logger.NewLogger),
 		fx.Provide(discord.NewSession),
 		fx.Invoke(registerHooks),
-		messageProvider.RepositoryModule,
-		messageProvider.UsecaseModule,
 		voiceProvider.UsecaseModule,
 		jackettProvider.UsecaseModule,
 		youtubeProvider.UsecaseModule,
 		musicProvider.UsecaseModule,
-		messageProvider.DeliveryModule,
 		commandsProvider.DeliveryModule,
 		routes.Module,
 	)

@@ -57,25 +57,37 @@ func (cd commandsDelivery) GetCommandsHandler(s *discordgo.Session, m *discordgo
 		return
 	}
 
-	if strings.HasPrefix(m.Content, botPrefix+"help") {
-		help := fmt.Sprintf("**Help**\n==============================\n`%splay [Youtube Link]` : Plays some music\n`%sstop` : Stop playing\n`%sjoin` : Joins your channel\n==============================", botPrefix, botPrefix, botPrefix)
-		cd.discord.SendMessageToChannel(m.ChannelID, help)
-	} else if strings.HasPrefix(m.Content, botPrefix+"join") {
+	contentArray := strings.Split(m.Content, " ")
+	command := strings.TrimLeft(contentArray[0], botPrefix)
+	commandArgs := ""
+	if len(contentArray) > 1 {
+		commandArgs = strings.Join(contentArray[1:], " ")
+	}
+	switch command {
+	case "help":
+		help := []string{
+			"** HELP **",
+			"==============================",
+			fmt.Sprintf("%splay [Youtube Link] : Plays some music", botPrefix),
+			fmt.Sprintf("%sstop : Stop playing", botPrefix),
+			fmt.Sprintf("%sjoin : Joins your channel", botPrefix),
+			"==============================",
+		}
+		cd.discord.SendMessageToChannel(m.ChannelID, strings.Join(help, "\n"))
+	case "join":
 		cd.voiceUsecase.ConnectToVoiceChannel(s, m, guild, true)
-	} else if strings.HasPrefix(m.Content, botPrefix+"torrent") {
-		var commandArgs []string = strings.Split(m.Content, " ")
-		if len(commandArgs) > 1 {
-			cd.jackettUsecase.LookupTorrent(strings.Join(commandArgs[1:], " "), s, m, guild)
+	case "torrent":
+		if commandArgs != "" {
+			cd.jackettUsecase.LookupTorrent(commandArgs, s, m, guild)
 		}
-	} else if strings.HasPrefix(m.Content, botPrefix+"stop") {
+	case "stop":
 		go cd.voiceUsecase.StopVoice()
-		cd.discord.SendMessageToChannel(m.ChannelID, "Ok -_o_-")
-	} else if strings.HasPrefix(m.Content, botPrefix+"play") {
-		var commandArgs []string = strings.Split(m.Content, " ")
-		if len(commandArgs) > 1 {
-			cd.musicUsecase.PlayYoutubeURL(commandArgs[1], s, m, guild)
+		cd.discord.SendMessageToChannel(m.ChannelID, "Ok... -.-'")
+	case "play":
+		if commandArgs != "" {
+			cd.musicUsecase.PlayYoutubeURL(commandArgs, s, m, guild)
 		}
-	} else {
-		cd.discord.SendMessageToChannel(m.ChannelID, botPrefix+"help to see commands")
+	default:
+		cd.discord.SendMessageToChannel(m.ChannelID, fmt.Sprintf("%shelp to see available commands", botPrefix))
 	}
 }

@@ -3,13 +3,12 @@ package routes
 import (
 	commandsDelivery "discordbot-golang/internal/commands/delivery"
 	"discordbot-golang/internal/discord"
-	messageDelivery "discordbot-golang/internal/messages/delivery"
+
 	"go.uber.org/fx"
 )
 
 //NewRoutes new Routes Handler
-func NewRoutes(discord discord.Discord, messageDelivery messageDelivery.Delivery, commandsDelivery commandsDelivery.Delivery) {
-	discord.AddHandler(messageDelivery.GetMessageHandler)
+func NewRoutes(discord discord.Discord, commandsDelivery commandsDelivery.Delivery) {
 	discord.AddHandler(commandsDelivery.GetCommandsHandler)
 }
 
