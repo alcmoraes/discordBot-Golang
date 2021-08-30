@@ -12,7 +12,7 @@ import (
 	"github.com/webtor-io/go-jackett"
 )
 
-//Usecase interface
+// Usecase interface
 type Usecase interface {
 	LookupTorrent(string, *discordgo.Session, *discordgo.MessageCreate, *discordgo.Guild)
 }
@@ -21,14 +21,12 @@ type jacketUsecase struct {
 	discord discord.Discord
 }
 
-//NewJackettUsecase new voice usecase
 func NewJackettUsecase(discord discord.Discord) Usecase {
 	return &jacketUsecase{
 		discord: discord,
 	}
 }
 
-//JoiAndPlayAudioFile return youtube download url
 func (ju jacketUsecase) LookupTorrent(torrent string, s *discordgo.Session, m *discordgo.MessageCreate, guild *discordgo.Guild) {
 	ju.discord.SendMessageToChannel(m.ChannelID, fmt.Sprintf("Looking for the best 3 matches of '%s' on 1337x.to...", torrent))
 	ctx := context.Background()
