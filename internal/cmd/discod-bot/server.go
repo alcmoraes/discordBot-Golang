@@ -4,15 +4,16 @@ import (
 	"context"
 	"log"
 
-	commandsProvider "github.com/Planxnx/discordBot-Golang/internal/commands/provider"
-	"github.com/Planxnx/discordBot-Golang/internal/discord"
-	"github.com/Planxnx/discordBot-Golang/internal/logger"
-	messageProvider "github.com/Planxnx/discordBot-Golang/internal/messages/provider"
-	musicProvider "github.com/Planxnx/discordBot-Golang/internal/music/provider"
-	voiceProvider "github.com/Planxnx/discordBot-Golang/internal/voice/provider"
+	commandsProvider "discordbot-golang/internal/commands/provider"
+	"discordbot-golang/internal/discord"
+	"discordbot-golang/internal/logger"
+	messageProvider "discordbot-golang/internal/messages/provider"
+	musicProvider "discordbot-golang/internal/music/provider"
+	voiceProvider "discordbot-golang/internal/voice/provider"
 
-	"github.com/Planxnx/discordBot-Golang/internal/routes"
-	youtubeProvider "github.com/Planxnx/discordBot-Golang/internal/youtube/provider"
+	"discordbot-golang/internal/routes"
+	youtubeProvider "discordbot-golang/internal/youtube/provider"
+
 	"github.com/joho/godotenv"
 	"go.uber.org/fx"
 )

@@ -5,9 +5,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Planxnx/discordBot-Golang/internal/discord"
-	messagesUsecase "github.com/Planxnx/discordBot-Golang/internal/messages/usecase"
-	voiceUsecase "github.com/Planxnx/discordBot-Golang/internal/voice/usecase"
+	"discordbot-golang/internal/discord"
+	messagesUsecase "discordbot-golang/internal/messages/usecase"
+	voiceUsecase "discordbot-golang/internal/voice/usecase"
 	"github.com/bwmarrin/discordgo"
 )
 

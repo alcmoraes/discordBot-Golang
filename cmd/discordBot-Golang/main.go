@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	discordBot "github.com/Planxnx/discordBot-Golang/internal/cmd/discod-bot"
+	discordBot "discordbot-golang/internal/cmd/discod-bot"
 )
 
 func main() {

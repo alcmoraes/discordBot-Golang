@@ -1,7 +1,7 @@
 package provider
 
 import (
-	"github.com/Planxnx/discordBot-Golang/internal/music/usecase"
+	"discordbot-golang/internal/music/usecase"
 	"go.uber.org/fx"
 )
 

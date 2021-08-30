@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/Planxnx/discordBot-Golang/internal/discord"
+	"discordbot-golang/internal/discord"
 )
 
 //Repository interface

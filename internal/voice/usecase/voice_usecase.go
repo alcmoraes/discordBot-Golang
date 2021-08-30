@@ -3,7 +3,8 @@ package usecase
 import (
 	"log"
 
-	"github.com/Planxnx/discordBot-Golang/internal/discord"
+	"discordbot-golang/internal/discord"
+
 	"github.com/bwmarrin/dgvoice"
 	"github.com/bwmarrin/discordgo"
 )
@@ -78,7 +79,7 @@ func findVoiceChannelID(guild *discordgo.Guild, m *discordgo.MessageCreate) stri
 func connectToVoiceChannel(discord discord.Discord, s *discordgo.Session, m *discordgo.MessageCreate, guild *discordgo.Guild, isMustJoin bool) (voiceConnection *discordgo.VoiceConnection, err error) {
 	voiceChannelID := findVoiceChannelID(guild, m)
 	if voiceChannelID == "" && isMustJoin {
-		if err := discord.SendMessageToChannel(m.ChannelID, "กรุณาเข้าห้องก่อนนะค้าบ"); err != nil {
+		if err := discord.SendMessageToChannel(m.ChannelID, "Join a voice channel first"); err != nil {
 			return nil, err
 		}
 	}

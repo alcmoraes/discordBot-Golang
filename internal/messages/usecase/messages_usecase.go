@@ -3,7 +3,7 @@ package usecase
 import (
 	"math/rand"
 
-	"github.com/Planxnx/discordBot-Golang/internal/messages/repository"
+	"discordbot-golang/internal/messages/repository"
 )
 
 //Usecase interface

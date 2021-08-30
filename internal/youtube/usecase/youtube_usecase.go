@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/Planxnx/discordBot-Golang/internal/music/model"
+	"discordbot-golang/internal/music/model"
 	"github.com/kkdai/youtube/v2"
 )
 

@@ -1,7 +1,7 @@
 package provider
 
 import (
-	"github.com/Planxnx/discordBot-Golang/internal/commands/delivery"
+	"discordbot-golang/internal/commands/delivery"
 	"go.uber.org/fx"
 )
 

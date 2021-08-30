@@ -1,9 +1,9 @@
 package routes
 
 import (
-	commandsDelivery "github.com/Planxnx/discordBot-Golang/internal/commands/delivery"
-	"github.com/Planxnx/discordBot-Golang/internal/discord"
-	messageDelivery "github.com/Planxnx/discordBot-Golang/internal/messages/delivery"
+	commandsDelivery "discordbot-golang/internal/commands/delivery"
+	"discordbot-golang/internal/discord"
+	messageDelivery "discordbot-golang/internal/messages/delivery"
 	"go.uber.org/fx"
 )
 

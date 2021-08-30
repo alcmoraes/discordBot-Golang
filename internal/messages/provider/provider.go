@@ -1,9 +1,9 @@
 package provider
 
 import (
-	"github.com/Planxnx/discordBot-Golang/internal/messages/delivery"
-	"github.com/Planxnx/discordBot-Golang/internal/messages/repository"
-	"github.com/Planxnx/discordBot-Golang/internal/messages/usecase"
+	"discordbot-golang/internal/messages/delivery"
+	"discordbot-golang/internal/messages/repository"
+	"discordbot-golang/internal/messages/usecase"
 	"go.uber.org/fx"
 )
 

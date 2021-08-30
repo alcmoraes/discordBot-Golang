@@ -1,4 +1,4 @@
-module github.com/Planxnx/discordBot-Golang
+module discordbot-golang
 
 go 1.14
 
@@ -8,5 +8,5 @@ require (
 	github.com/joho/godotenv v1.3.0
 	github.com/kkdai/youtube/v2 v2.7.4
 	go.uber.org/fx v1.13.0
-	layeh.com/gopus v0.0.0-20161224163843-0ebf989153aa // indirect
+	layeh.com/gopus v0.0.0-20210501142526-1ee02d434e32 // indirect
 )
