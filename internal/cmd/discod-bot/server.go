@@ -10,6 +10,8 @@ import (
 	"discordbot-golang/internal/logger"
 	musicProvider "discordbot-golang/internal/music/provider"
 	voiceProvider "discordbot-golang/internal/voice/provider"
+	warezProvider "discordbot-golang/internal/warez/provider"
+	warezUsecase "discordbot-golang/internal/warez/usecase"
 
 	"discordbot-golang/internal/routes"
 	youtubeProvider "discordbot-golang/internal/youtube/provider"
@@ -29,6 +31,8 @@ func registerHooks(lifecycle fx.Lifecycle, discord discord.Discord) {
 				return nil
 			},
 			OnStop: func(context.Context) error {
+				log.Print("Finishing NGROK connections...")
+				go func() { warezUsecase.NGROK_CHAN <- true }()
 				log.Print("Stopping server.")
 				if err := discord.CloseConnection(); err != nil {
 					log.Printf("%v\n", err)
@@ -53,6 +57,7 @@ func RunServer() error {
 		fx.Invoke(registerHooks),
 		voiceProvider.UsecaseModule,
 		jackettProvider.UsecaseModule,
+		warezProvider.UsecaseModule,
 		youtubeProvider.UsecaseModule,
 		musicProvider.UsecaseModule,
 		commandsProvider.DeliveryModule,
