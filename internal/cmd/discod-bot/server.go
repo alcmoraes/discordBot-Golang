@@ -44,7 +44,7 @@ func RunServer() error {
 	err := godotenv.Load()
 
 	if err != nil {
-		log.Fatal("dotEnv: can't loading .env file")
+		log.Println("dotEnv: can't loading .env file")
 	}
 
 	app := fx.New(

@@ -8,5 +8,7 @@ run:
 	go run ./cmd/discordBot-Golang/
 
 install: build
-	scp cmd/discordBot-Golang/main alcmoraes@192.168.0.3:/home/alcmoraes/Bots/discord/music/bot
-	scp .env alcmoraes@192.168.0.3:/home/alcmoraes/Bots/discord/music/.env
+	ssh gamecenter "systemctl stop musicbot.service"
+	scp cmd/discordBot-Golang/main gamecenter:/home/alcmoraes/Bots/discord/music/bot
+	scp .env gamecenter:/home/alcmoraes/Bots/discord/music/.env
+	ssh gamecenter "systemctl start musicbot.service"

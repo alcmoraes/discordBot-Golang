@@ -71,6 +71,8 @@ func (cd commandsDelivery) GetCommandsHandler(s *discordgo.Session, m *discordgo
 			fmt.Sprintf("%splay [Youtube Link] : Plays some music", botPrefix),
 			fmt.Sprintf("%sstop : Stop playing", botPrefix),
 			fmt.Sprintf("%sjoin : Joins your channel", botPrefix),
+			fmt.Sprintf("%sleave : Leaves your channel", botPrefix),
+			fmt.Sprintf("%storrent : Lookup for torrents :pirate_flag:", botPrefix),
 			"==============================",
 		}
 		cd.discord.SendMessageToChannel(m.ChannelID, strings.Join(help, "\n"))
@@ -80,8 +82,11 @@ func (cd commandsDelivery) GetCommandsHandler(s *discordgo.Session, m *discordgo
 		if commandArgs != "" {
 			cd.jackettUsecase.LookupTorrent(commandArgs, s, m, guild)
 		}
+	case "leave":
+		go s.ChannelVoiceJoinManual(guild.ID, "", false, true)
 	case "stop":
 		go cd.voiceUsecase.StopVoice()
+		go s.ChannelVoiceJoinManual(guild.ID, "", false, true)
 		cd.discord.SendMessageToChannel(m.ChannelID, "Ok... -.-'")
 	case "play":
 		if commandArgs != "" {
